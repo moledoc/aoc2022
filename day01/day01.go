@@ -38,7 +38,37 @@ func fst() {
 	fmt.Println(most)
 }
 
+func top3(cals *[]int, count int) {
+	if count > (*cals)[2] {
+		(*cals)[0] = (*cals)[1]
+		(*cals)[1] = (*cals)[2]
+		(*cals)[2] = count
+	} else if count > (*cals)[1] {
+		(*cals)[0] = (*cals)[1]
+		(*cals)[1] = count
+	} else if count > (*cals)[0] {
+		(*cals)[0] = count
+	}
+}
+
 func snd() {
+	cals := make([]int, 3)
+	count := 0
+	for _, cal := range input {
+		if cal == "" {
+			top3(&cals, count)
+			count = 0
+			continue
+		}
+		c, err := strconv.Atoi(cal)
+		if err != nil {
+			fmt.Printf("unable to convert '%v' to int\n", cal)
+			continue
+		}
+		count += c
+	}
+	top3(&cals, count)
+	fmt.Println(cals[0] + cals[1] + cals[2])
 }
 
 func main() {
